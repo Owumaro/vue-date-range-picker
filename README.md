@@ -30,3 +30,6 @@ npm run dev
 - Improve custom range selection
 - Component props
 - Build config
+- I18n
+- Documentation
+- Tests
