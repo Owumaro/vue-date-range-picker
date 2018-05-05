@@ -93,8 +93,8 @@
         </div>
       </div>
       <div class="form-group form-inline justify-content-end mb-0">
-        <button type="button" class="btn btn-light">Cancel</button>
-        <button type="button" class="btn btn-primary ml-2" :disabled="step != null">Submit</button>
+        <button type="button" class="btn btn-light" @click="cancel">Cancel</button>
+        <button type="button" class="btn btn-primary ml-2" :disabled="step != null" @click="submit">Submit</button>
       </div>
     </div>
   </div>
@@ -186,6 +186,20 @@ export default {
         this.selectDate(date)
       }
       this.nextStep()
+    },
+    // Submit button
+    submit: function() {
+      this.$emit('submit', {
+        startDate: this.startDate,
+        endDate: this.endDate,
+        compare: this.compare,
+        startDateCompare: this.startDateCompare,
+        endDateCompare: this.endDateCompare
+      })
+    },
+    // Cancel button
+    cancel: function() {
+      this.$emit('cancel')
     }
   },
   watch: {
