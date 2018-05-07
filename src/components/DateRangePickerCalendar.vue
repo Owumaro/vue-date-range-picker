@@ -2,7 +2,7 @@
   <div class="daterangepicker-calendar">
     <div class="d-flex align-items-center">
       <div class="p-1" :class="control == 'left' ? '' : 'invisible'">
-        <button type="button" class="btn btn-sm btn-light" @click="goToPrevMonth()">
+        <button type="button" class="btn btn-sm btn-light" @mousedown.prevent @click="goToPrevMonth">
           <font-awesome-icon icon="caret-left" fixed-width />
         </button>
       </div>
@@ -10,7 +10,7 @@
         {{ month.format('MMMM YYYY') }}
       </div>
       <div class="p-1" :class="control == 'right' ? '' : 'invisible'">
-        <button type="button" class="btn btn-sm btn-light" @click="goToNextMonth()">
+        <button type="button" class="btn btn-sm btn-light" @mousedown.prevent @click="goToNextMonth">
           <font-awesome-icon icon="caret-right" fixed-width />
         </button>
       </div>
@@ -21,7 +21,7 @@
     
     <div class="d-flex flex-wrap justify-content-between text-center daterangepicker-calendar-row">
       <div v-for="day in days" :key="day.format('M-D')" class="col-day"
-        :class="dayClass(day)" @mouseover="selectDate(day)" @click="nextStep()">{{ day.format('D') }}</div>
+        :class="dayClass(day)" @mouseover="selectDate(day)" @mousedown.prevent @click="nextStep">{{ day.format('D') }}</div>
     </div>
   </div>
 </template>
@@ -77,7 +77,8 @@ export default {
 
       return classes.join(' ')
     },
-    goToPrevMonth: function() {
+    goToPrevMonth: function(event) {
+      console.log(event)
       this.$emit('goToPrevMonth')
     },
     goToNextMonth: function() {

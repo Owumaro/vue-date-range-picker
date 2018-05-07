@@ -45,19 +45,19 @@
         </select>
       </div>
       <div class="form-group form-inline flex-nowrap">
-        <input type="text" class="form-control w-100 daterangepicker-date-input" ref="startDate"
+        <input type="text" class="form-control w-100 daterangepicker-date-input"
+          ref="startDate"
           :value="startDate | dateFormat"
-          :class="step == 'selectStartDate' ? 'daterangepicker-range-border-focus' : ''"
-          @click="step = 'selectStartDate'" @focus="step = 'selectStartDate'"
+          @focus="step = 'selectStartDate'" @blur="inputDate"
           @keyup.enter="inputDate"
         >
         <span class="mx-2">
         <font-awesome-icon icon="caret-right" fixed-width />
         </span>
-        <input type="text" class="form-control w-100 daterangepicker-date-input" ref="endDate"
+        <input type="text" class="form-control w-100 daterangepicker-date-input"
+          ref="endDate"
           :value="endDate | dateFormat"
-          :class="step == 'selectEndDate' ? 'daterangepicker-range-border-focus' : ''"
-          @click="step = 'selectEndDate'" @focus="step = 'selectEndDate'"
+          @focus="step = 'selectEndDate'" @blur="inputDate"
           @keyup.enter="inputDate"
         >
       </div>
@@ -69,27 +69,27 @@
       </div>
       <div v-if="compare">
         <div class="form-group">
-          <select class="custom-select" :class="compare ? 'daterangepicker-range-compare-border' : ''" v-model="rangeSelectCompare">
+          <select class="custom-select" :class="compare ? 'daterangepicker-range-border compare' : ''" v-model="rangeSelectCompare">
             <option v-for="(range, rangeKey) in ranges" :key="rangeKey" :value="rangeKey">{{ range.label }}</option>
             <option value="custom">Custom range</option>
           </select>
         </div>
         <div class="form-group form-inline flex-nowrap">
-          <input type="text" class="form-control w-100 daterangepicker-date-input" ref="startDateCompare"
+          <input type="text" class="form-control w-100 daterangepicker-date-input compare"
+            ref="startDateCompare"
             :value="startDateCompare | dateFormat"
-            :class="step == 'selectStartDateCompare' ? 'daterangepicker-range-compare-border-focus' : ''"
-            @click="step = 'selectStartDateCompare'" @focus="step = 'selectStartDateCompare'"
+            @focus="step = 'selectStartDateCompare'" @blur="inputDate"
             @keyup.enter="inputDate"
           >
-        <span class="mx-2">
-        <font-awesome-icon icon="caret-right" fixed-width />
-        </span>
-        <input type="text" class="form-control w-100 daterangepicker-date-input" ref="endDateCompare"
-          :value="endDateCompare | dateFormat"
-          :class="step == 'selectEndDateCompare' ? 'daterangepicker-range-compare-border-focus' : ''"
-          @click="step = 'selectEndDateCompare'" @focus="step = 'selectEndDateCompare'"
-          @keyup.enter="inputDate"
-        >
+          <span class="mx-2">
+          <font-awesome-icon icon="caret-right" fixed-width />
+          </span>
+          <input type="text" class="form-control w-100 daterangepicker-date-input compare"
+            ref="endDateCompare"
+            :value="endDateCompare | dateFormat"
+            @focus="step = 'selectEndDateCompare'" @blur="inputDate"
+            @keyup.enter="inputDate"
+          >
         </div>
       </div>
       <div class="form-group form-inline justify-content-end mb-0">
@@ -314,24 +314,27 @@ export default {
   flex-basis: 100%;
 }
 
+/* Make sure that the full date (YYYY-MM-DD) is displayed */
 .daterangepicker-date-input {
   min-width: 120px;
 }
 
+/* Select menus border */
 .daterangepicker-range-border {
   border-color: #17a2b8 !important;
 }
 
-.daterangepicker-range-border-focus {
+.daterangepicker-range-border.compare {
+  border-color: #ff9307 !important;
+}
+
+/* Date input focus */
+.daterangepicker-date-input:focus {
   border-color: #17a2b8 !important;
   box-shadow: 0 0 0 0.2rem rgba(23, 162, 184, 0.25) !important;
 }
 
-.daterangepicker-range-compare-border {
-  border-color: #ff9307 !important;
-}
-
-.daterangepicker-range-compare-border-focus {
+.daterangepicker-date-input.compare:focus {
   border-color: #ff9307 !important;
   box-shadow: 0 0 0 0.2rem rgba(255, 147, 7, 0.25) !important;
 }

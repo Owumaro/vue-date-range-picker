@@ -27,10 +27,10 @@ npm run dev
 ```
 
 ## TODO
-- Improve custom range selection workflow
 - Component props
 - Build config
 - I18n
 - Documentation
 - Tests
 - Hosted demo page
+- Popover demo
