@@ -5,7 +5,6 @@
     <h3 class="pb-2 border-bottom">Inline integration</h3>
     <div class="mb-4">
       <date-range-picker v-on:submit="submitted" />
-       />
     </div>
     
     <h3 class="pb-2 border-bottom">Modal integration</h3>
