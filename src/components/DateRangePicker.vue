@@ -44,7 +44,7 @@
           @keyup.enter="inputDate"
         >
       </div>
-      <div class="form-group">
+      <div class="form-group" v-if="allowCompare">
         <div class="custom-control custom-checkbox">
           <input type="checkbox" class="custom-control-input" :id="'date-range-picker-compare-' + _uid" v-model="compare">
           <label class="custom-control-label" :for="'date-range-picker-compare-' + _uid">Compare</label>
@@ -94,6 +94,10 @@ export default {
     calendarCount: {
       type: Number,
       default: 2
+    },
+    allowCompare: {
+      type: Boolean,
+      default: true
     }
   },
   data: () => {
