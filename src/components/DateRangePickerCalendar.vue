@@ -1,15 +1,15 @@
 <template>
   <div class="daterangepicker-calendar">
     <div class="d-flex align-items-center">
-      <div class="p-1" :class="control == 'left' ? '' : 'invisible'">
+      <div class="p-1" :class="calendarIndex == 1 ? '' : 'invisible'">
         <button type="button" class="btn btn-sm btn-light" @mousedown.prevent @click="goToPrevMonth">
           <font-awesome-icon icon="caret-left" fixed-width />
         </button>
       </div>
       <div class="p-1 col text-center">
-        {{ month.format('MMMM YYYY') }}
+        {{ displayMonth.format('MMMM YYYY') }}
       </div>
-      <div class="p-1" :class="control == 'right' ? '' : 'invisible'">
+      <div class="p-1" :class="calendarIndex == calendarCount ? '' : 'invisible'">
         <button type="button" class="btn btn-sm btn-light" @mousedown.prevent @click="goToNextMonth">
           <font-awesome-icon icon="caret-right" fixed-width />
         </button>
@@ -32,14 +32,17 @@ import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
 import moment from 'moment'
 
 export default {
-  props: ['control', 'month', 'startDate', 'endDate', 'compare', 'startDateCompare', 'endDateCompare', 'step'],
+  props: ['calendarIndex', 'calendarCount', 'month', 'startDate', 'endDate', 'compare', 'startDateCompare', 'endDateCompare', 'step'],
   data: () => {
     return {}
   },
   computed: {
+    displayMonth: function() {
+      return moment.utc(this.month).add(this.calendarIndex - 1, 'month')
+    },
     days: function() {
-      let startDay = moment.utc(this.month).startOf('isoWeek')
-      let endDay = moment.utc(this.month).endOf('month').endOf('isoWeek').startOf('day').add(1, 'day')
+      let startDay = moment.utc(this.displayMonth).startOf('isoWeek')
+      let endDay = moment.utc(this.displayMonth).endOf('month').endOf('isoWeek').startOf('day').add(1, 'day')
       let nDays = moment.duration(endDay.diff(startDay)).asDays()
 
       let days = []
@@ -59,7 +62,7 @@ export default {
       let classes = []
       
       // Hide days overflowing
-      if (!day.isBetween(this.month, moment.utc(this.month).endOf('month'), 'days', '[]')) {
+      if (!day.isBetween(this.displayMonth, moment.utc(this.displayMonth).endOf('month'), 'days', '[]')) {
         classes.push('invisible')
       }
       // Class for days between startDate & endDate or is startDate (in case of startDate after endDate)

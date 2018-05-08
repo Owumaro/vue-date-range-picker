@@ -1,9 +1,10 @@
 <template>
   <div class="d-flex daterangepicker-row">
-    <!-- Left calendar -->
-    <div class="daterangepicker-col">
+    <!-- Calendars -->
+    <div class="daterangepicker-col" v-for="calendarIndex in calendarCount" :key="calendarIndex">
       <date-range-picker-calendar
-        control="left"
+        :calendarIndex="calendarIndex"
+        :calendarCount="calendarCount"
         :month="month"
         :startDate="startDate"
         :endDate="endDate"
@@ -11,24 +12,6 @@
         :startDateCompare="startDateCompare"
         :endDateCompare="endDateCompare"
         :step="step"
-        v-on:goToPrevMonth="goToPrevMonth"
-        v-on:goToNextMonth="goToNextMonth"
-        v-on:selectDate="selectDate"
-        v-on:nextStep="nextStep"
-      />
-    </div>
-
-    <!-- Right calendar -->
-    <div class="daterangepicker-col">
-      <date-range-picker-calendar
-        control="right"
-        :month="nextMonth"
-        :startDate="startDate"
-        :endDate="endDate"
-        :compare="compare"
-        :step="step"
-        :startDateCompare="startDateCompare"
-        :endDateCompare="endDateCompare"
         v-on:goToPrevMonth="goToPrevMonth"
         v-on:goToNextMonth="goToNextMonth"
         v-on:selectDate="selectDate"
@@ -107,7 +90,12 @@ import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
 import moment from 'moment'
 
 export default {
-  props: {},
+  props: {
+    calendarCount: {
+      type: Number,
+      default: 2
+    }
+  },
   data: () => {
     return {
       startDate: moment.utc().subtract(1, 'month').startOf('month'),
