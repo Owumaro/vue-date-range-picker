@@ -62,12 +62,12 @@ export default {
       if (!day.isBetween(this.month, moment.utc(this.month).endOf('month'), 'days', '[]')) {
         classes.push('invisible')
       }
-      // Class for days between startDate & endDate
-      if (day.isBetween(this.startDate, this.endDate, 'days', '[]')) {
+      // Class for days between startDate & endDate or is startDate (in case of startDate after endDate)
+      if (day.isBetween(this.startDate, this.endDate, 'days', '[]') || day.isSame(this.startDate)) {
         classes.push('daterangepicker-range')
       }
-      // Class for days between startDateCompare & endDateCompare
-      if (this.compare && day.isBetween(this.startDateCompare, this.endDateCompare, 'days', '[]')) {
+      // Class for days between startDateCompare & endDateCompare or is startDateCompare (in case of startDateCompare after endDateCompare)
+      if (this.compare && (day.isBetween(this.startDateCompare, this.endDateCompare, 'days', '[]') || day.isSame(this.startDateCompare))) {
         classes.push('daterangepicker-range-compare')
       }
       // Class for cursor if the step is selecting something
@@ -116,6 +116,7 @@ export default {
   width: 14.28%;
   padding: 0.5rem 0;
   white-space: nowrap;
+  cursor: default;
 }
 
 .daterangepicker-range {
