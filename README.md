@@ -27,7 +27,6 @@ npm run dev
 ```
 
 ## TODO
-- Component props
 - Build config
 - I18n
 - Documentation

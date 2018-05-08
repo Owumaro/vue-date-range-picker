@@ -32,7 +32,6 @@
           ref="startDate"
           :value="startDate | dateFormat"
           @focus="step = 'selectStartDate'" @blur="inputDate"
-          @keyup.enter="inputDate"
         >
         <span class="mx-2">
         <font-awesome-icon icon="caret-right" fixed-width />
@@ -41,7 +40,6 @@
           ref="endDate"
           :value="endDate | dateFormat"
           @focus="step = 'selectEndDate'" @blur="inputDate"
-          @keyup.enter="inputDate"
         >
       </div>
       <div class="form-group" v-if="allowCompare">
@@ -98,30 +96,41 @@ export default {
     allowCompare: {
       type: Boolean,
       default: true
+    },
+    ranges: {
+      type: Object,
+      default: function() {
+        return {
+          currentMonth: {
+            label: 'Current month',
+            startDate: moment.utc().startOf('month'),
+            endDate: moment.utc().endOf('month').startOf('day')
+          },
+          lastMonth: {
+            label: 'Last month',
+            startDate: moment.utc().subtract(1, 'month').startOf('month'),
+            endDate: moment.utc().subtract(1, 'month').endOf('month').startOf('day')
+          }
+        }
+      }
+    },
+    rangeSelect: {
+      type: String,
+      default: 'currentMonth'
+    },
+    rangeSelectCompare: {
+      type: String,
+      default: 'lastMonth'
     }
   },
   data: () => {
     return {
-      startDate: moment.utc().subtract(1, 'month').startOf('month'),
-      endDate: moment.utc().subtract(1, 'month').endOf('month').startOf('day'),
-      rangeSelect: 'lastMonth',
-      ranges: {
-        currentMonth: {
-          label: 'Current month',
-          startDate: moment.utc().startOf('month'),
-          endDate: moment.utc().endOf('month').startOf('day')
-        },
-        lastMonth: {
-          label: 'Last month',
-          startDate: moment.utc().subtract(1, 'month').startOf('month'),
-          endDate: moment.utc().subtract(1, 'month').endOf('month').startOf('day')
-        }
-      },
-      month: moment.utc().subtract(1, 'month').startOf('month'),
+      startDate: moment.utc(),
+      endDate: moment.utc(),
+      startDateCompare: moment.utc(),
+      endDateCompare: moment.utc(),
       compare: false,
-      startDateCompare: moment.utc().subtract(1, 'month').startOf('month'),
-      endDateCompare: moment.utc().subtract(1, 'month').endOf('month').startOf('day'),
-      rangeSelectCompare: "lastMonth",
+      month: moment.utc().subtract(1, 'month').startOf('month'),
       step: null
     }
   },
@@ -143,6 +152,54 @@ export default {
     },
     goToNextMonth: function() {
       this.month = moment.utc(this.month).add(1, 'month')
+    },
+    selectRange: function(rangeKey) {
+      let predefinedRange = false
+
+      // Predefined ranges
+      for (const _rangeKey of Object.keys(this.ranges)) {
+        const range = this.ranges[_rangeKey]
+        if (rangeKey == _rangeKey) {
+          predefinedRange = true
+
+          if (!this.startDate.isSame(range.startDate)) {
+            this.startDate = moment.utc(range.startDate)
+          }
+          if (!this.endDate.isSame(range.endDate)) {
+            this.endDate = moment.utc(range.endDate)
+          }
+        }
+      }
+
+      // Custom range
+      if (!predefinedRange && this.step == null) {
+        this.step = 'selectStartDate'
+        this.$refs.startDate.focus()
+      }
+    },
+    selectRangeCompare: function(rangeKey) {
+      let predefinedRange = false
+
+      // Predefined ranges
+      for (const _rangeKey of Object.keys(this.ranges)) {
+        const range = this.ranges[_rangeKey]
+        if (rangeKey == _rangeKey) {
+          predefinedRange = true
+
+          if (!this.startDateCompare.isSame(range.startDate)) {
+            this.startDateCompare = moment.utc(range.startDate)
+          }
+          if (!this.endDateCompare.isSame(range.endDate)) {
+            this.endDateCompare = moment.utc(range.endDate)
+          }
+        }
+      }
+
+      // Custom range
+      if (!predefinedRange && this.step == null) {
+        this.step = 'selectStartDateCompare'
+        this.$refs.startDateCompare.focus()
+      }
     },
     selectDate: function(date) {
       if (this.step == 'selectStartDate') {
@@ -195,53 +252,11 @@ export default {
     }
   },
   watch: {
-    rangeSelect: function(val) {
-      let predefinedRange = false
-
-      // Predefined ranges
-      for (const rangeKey of Object.keys(this.ranges)) {
-        const range = this.ranges[rangeKey]
-        if (val == rangeKey) {
-          predefinedRange = true
-
-          if (!this.startDate.isSame(range.startDate)) {
-            this.startDate = moment.utc(range.startDate)
-          }
-          if (!this.endDate.isSame(range.endDate)) {
-            this.endDate = moment.utc(range.endDate)
-          }
-        }
-      }
-
-      // Custom range
-      if (!predefinedRange && this.step == null) {
-        this.step = 'selectStartDate'
-        this.$refs.startDate.focus()
-      }
+    rangeSelect: function(rangeKey) {
+      this.selectRange(rangeKey)
     },
-    rangeSelectCompare: function(val) {
-      let predefinedRange = false
-
-      // Predefined ranges
-      for (const rangeKey of Object.keys(this.ranges)) {
-        const range = this.ranges[rangeKey]
-        if (val == rangeKey) {
-          predefinedRange = true
-
-          if (!this.startDateCompare.isSame(range.startDate)) {
-            this.startDateCompare = moment.utc(range.startDate)
-          }
-          if (!this.endDateCompare.isSame(range.endDate)) {
-            this.endDateCompare = moment.utc(range.endDate)
-          }
-        }
-      }
-
-      // Custom range
-      if (!predefinedRange && this.step == null) {
-        this.step = 'selectStartDateCompare'
-        this.$refs.startDateCompare.focus()
-      }
+    rangeSelectCompare: function(rangeKey) {
+      this.selectRangeCompare(rangeKey)
     },
     range: function() {
       let predefinedRange = false
@@ -290,6 +305,11 @@ export default {
     dateFormat: function(value) {
       return value ? value.format('YYYY-MM-DD') : ''
     }
+  },
+  created: function() {
+    // Initialize dates from selected ranges
+    this.selectRange(this.rangeSelect)
+    this.selectRangeCompare(this.rangeSelectCompare)
   },
   components: { DateRangePickerCalendar, FontAwesomeIcon }
 }
