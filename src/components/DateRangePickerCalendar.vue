@@ -21,7 +21,7 @@
     
     <div class="d-flex flex-wrap justify-content-between text-center daterangepicker-calendar-row">
       <div v-for="day in days" :key="day.format('M-D')" class="col-day"
-        :class="dayClass(day)" @mouseover="selectDate(day)" @mousedown.prevent @click="nextStep">{{ day.format('D') }}</div>
+        :class="dayClass(day)" @mouseover="dayMouseOver(day)" @mousedown.prevent @click="dayClick(day)">{{ day.format('D') }}</div>
     </div>
   </div>
 </template>
@@ -77,8 +77,17 @@ export default {
 
       return classes.join(' ')
     },
-    goToPrevMonth: function(event) {
-      console.log(event)
+    dayMouseOver: function(day) {
+      if (this.step != null) {
+        this.selectDate(day)
+      }
+    },
+    dayClick: function(day) {
+      if (this.step != null) {
+        this.nextStep()
+      }
+    },
+    goToPrevMonth: function() {
       this.$emit('goToPrevMonth')
     },
     goToNextMonth: function() {
@@ -105,8 +114,7 @@ export default {
 
 .col-day {
   width: 14.28%;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
+  padding: 0.5rem 0;
   white-space: nowrap;
 }
 
