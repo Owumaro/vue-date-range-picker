@@ -114,11 +114,11 @@ export default {
         }
       }
     },
-    rangeSelect: {
+    defaultRangeSelect: {
       type: String,
       default: 'currentMonth'
     },
-    rangeSelectCompare: {
+    defaultRangeSelectCompare: {
       type: String,
       default: 'lastMonth'
     }
@@ -129,6 +129,8 @@ export default {
       endDate: moment.utc(),
       startDateCompare: moment.utc(),
       endDateCompare: moment.utc(),
+      rangeSelect: null,
+      rangeSelectCompare: null,
       compare: false,
       month: moment.utc().subtract(1, 'month').startOf('month'),
       step: null
@@ -307,9 +309,9 @@ export default {
     }
   },
   created: function() {
-    // Initialize dates from selected ranges
-    this.selectRange(this.rangeSelect)
-    this.selectRangeCompare(this.rangeSelectCompare)
+    // Initialize ranges
+    this.rangeSelect = this.defaultRangeSelect
+    this.rangeSelectCompare = this.defaultRangeSelectCompare
   },
   components: { DateRangePickerCalendar, FontAwesomeIcon }
 }
