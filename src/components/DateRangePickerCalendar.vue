@@ -27,9 +27,13 @@
 </template>
 
 <script>
-import '@fortawesome/fontawesome-free-solid'
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
+import fontawesome from '@fortawesome/fontawesome'
+import faCaretLeft from '@fortawesome/fontawesome-free-solid/faCaretLeft'
+import faCaretRight from '@fortawesome/fontawesome-free-solid/faCaretRight'
 import moment from 'moment'
+
+fontawesome.library.add(faCaretLeft, faCaretRight)
 
 export default {
   props: ['calendarIndex', 'calendarCount', 'month', 'startDate', 'endDate', 'compare', 'startDateCompare', 'endDateCompare', 'step'],

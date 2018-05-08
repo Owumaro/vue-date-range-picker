@@ -83,9 +83,12 @@
 
 <script>
 import DateRangePickerCalendar from './DateRangePickerCalendar'
-import '@fortawesome/fontawesome-free-solid'
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
+import fontawesome from '@fortawesome/fontawesome'
+import faCaretRight from '@fortawesome/fontawesome-free-solid/faCaretRight'
 import moment from 'moment'
+
+fontawesome.library.add(faCaretRight)
 
 export default {
   props: {

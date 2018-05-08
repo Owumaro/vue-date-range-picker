@@ -27,8 +27,6 @@ npm run dev
 ```
 
 ## TODO
-- Build config
-- I18n
 - Documentation
 - Tests
 - Hosted demo page
