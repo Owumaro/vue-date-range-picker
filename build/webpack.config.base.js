@@ -1,17 +1,6 @@
-const webpack = require('webpack')
-const path = require('path')
 const { VueLoaderPlugin } = require('vue-loader')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 module.exports = {
-  mode: 'production',
-  entry: './src/components/DateRangePicker.vue',
-  output: {
-    filename: 'vue-date-range-picker.js',
-    path: path.resolve(__dirname, '../dist')
-  },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {
@@ -68,8 +57,6 @@ module.exports = {
     ]
   },
   plugins: [
-    new VueLoaderPlugin(),
-    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-    new BundleAnalyzerPlugin()
+    new VueLoaderPlugin()
   ]
 }
