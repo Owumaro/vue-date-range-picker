@@ -3,6 +3,8 @@ A vue component using Bootstrap 4 styles for date range selection
 
 ![Vue-Treeselect Screenshot](https://raw.githubusercontent.com/Owumaro/vue-date-range-picker/master/screenshot.png)
 
+[Live demo (jsfiddle)](https://jsfiddle.net/Owumaro/qw7mpfr8/)
+
 ### Features
 
 - Date range selection
