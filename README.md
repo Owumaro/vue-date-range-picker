@@ -49,7 +49,9 @@ export default {
 
 ### Browser
 
-TODO
+```
+Vue.use(DateRangePicker)
+```
 
 ## API
 
@@ -84,7 +86,5 @@ npm run dev
 - https://github.com/dangrossman/daterangepicker
 
 ## TODO
-- Browser usage documentation
 - Tests
-- Hosted demo page
-- Popover demo
+- CSS without bootstrap dependency
