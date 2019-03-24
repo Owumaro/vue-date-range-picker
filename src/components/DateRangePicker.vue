@@ -82,13 +82,13 @@
 </template>
 
 <script>
-import DateRangePickerCalendar from './DateRangePickerCalendar'
-import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
-import fontawesome from '@fortawesome/fontawesome'
-import faCaretRight from '@fortawesome/fontawesome-free-solid/faCaretRight'
 import moment from 'moment'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faCaretRight } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import DateRangePickerCalendar from './DateRangePickerCalendar'
 
-fontawesome.library.add(faCaretRight)
+library.add(faCaretRight)
 
 export default {
   props: {
@@ -145,10 +145,10 @@ export default {
     },
     // For multi prop watchers
     range: function() {
-      return this.startDate, this.endDate
+      return (this.startDate, this.endDate)
     },
     rangeCompare: function() {
-      return this.startDateCompare, this.endDateCompare
+      return (this.startDateCompare, this.endDateCompare)
     }
   },
   methods: {
@@ -164,7 +164,7 @@ export default {
       // Predefined ranges
       for (const _rangeKey of Object.keys(this.ranges)) {
         const range = this.ranges[_rangeKey]
-        if (rangeKey == _rangeKey) {
+        if (rangeKey === _rangeKey) {
           predefinedRange = true
 
           if (!this.startDate.isSame(range.startDate)) {
@@ -188,7 +188,7 @@ export default {
       // Predefined ranges
       for (const _rangeKey of Object.keys(this.ranges)) {
         const range = this.ranges[_rangeKey]
-        if (rangeKey == _rangeKey) {
+        if (rangeKey === _rangeKey) {
           predefinedRange = true
 
           if (!this.startDateCompare.isSame(range.startDate)) {
@@ -201,34 +201,34 @@ export default {
       }
 
       // Custom range
-      if (!predefinedRange && this.step == null) {
+      if (!predefinedRange && this.step === null) {
         this.step = 'selectStartDateCompare'
         this.$refs.startDateCompare.focus()
       }
     },
     selectDate: function(date) {
-      if (this.step == 'selectStartDate') {
+      if (this.step === 'selectStartDate') {
         this.startDate = date
-      } else if (this.step == 'selectEndDate') {
+      } else if (this.step === 'selectEndDate') {
         this.endDate = date
-      } else if (this.step == 'selectStartDateCompare') {
+      } else if (this.step === 'selectStartDateCompare') {
         this.startDateCompare = date
-      } else if (this.step == 'selectEndDateCompare') {
+      } else if (this.step === 'selectEndDateCompare') {
         this.endDateCompare = date
       }
     },
     // Step flow for date range selections
     nextStep: function() {
-      if (this.step == 'selectStartDate') {
+      if (this.step === 'selectStartDate') {
         this.step = 'selectEndDate'
         this.$refs.endDate.focus()
-      } else if (this.step == 'selectEndDate') {
+      } else if (this.step === 'selectEndDate') {
         this.step = null
         this.$refs.endDate.blur()
-      } else if (this.step == 'selectStartDateCompare') {
+      } else if (this.step === 'selectStartDateCompare') {
         this.step = 'selectEndDateCompare'
         this.$refs.endDateCompare.focus()
-      } else if (this.step == 'selectEndDateCompare') {
+      } else if (this.step === 'selectEndDateCompare') {
         this.step = null
         this.$refs.endDateCompare.blur()
       }
@@ -271,7 +271,7 @@ export default {
         const range = this.ranges[rangeKey]
         if (this.startDate.isSame(range.startDate) && this.endDate.isSame(range.endDate)) {
           predefinedRange = true
-          if (this.rangeSelect != rangeKey) {
+          if (this.rangeSelect !== rangeKey) {
             this.rangeSelect = rangeKey
           }
         }
@@ -279,7 +279,7 @@ export default {
 
       // Custom range
       if (!predefinedRange) {
-        if (this.rangeSelect != 'custom') {
+        if (this.rangeSelect !== 'custom') {
           this.rangeSelect = 'custom'
         }
       }
@@ -292,7 +292,7 @@ export default {
         const range = this.ranges[rangeKey]
         if (this.startDateCompare.isSame(range.startDate) && this.endDateCompare.isSame(range.endDate)) {
           predefinedRange = true
-          if (this.rangeSelectCompare != rangeKey) {
+          if (this.rangeSelectCompare !== rangeKey) {
             this.rangeSelectCompare = rangeKey
           }
         }
@@ -300,7 +300,7 @@ export default {
 
       // Custom range
       if (!predefinedRange) {
-        if (this.rangeSelectCompare != 'custom') {
+        if (this.rangeSelectCompare !== 'custom') {
           this.rangeSelectCompare = 'custom'
         }
       }

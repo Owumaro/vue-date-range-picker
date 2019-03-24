@@ -6,7 +6,7 @@
     <div class="mb-4">
       <date-range-picker v-on:submit="submitted" />
     </div>
-    
+
     <h3 class="pb-2 border-bottom">Modal integration</h3>
     <div class="mb-4">
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
@@ -32,9 +32,12 @@
 import 'bootstrap'
 import moment from 'moment'
 import $ from 'jquery'
-import '@fortawesome/fontawesome-free-solid'
-import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
-import DateRangePicker from '../src/components/DateRangePicker'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faCalendarAlt, faCaretDown } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import DateRangePicker from './components/DateRangePicker'
+
+library.add(faCalendarAlt, faCaretDown)
 
 export default {
   components: { DateRangePicker, FontAwesomeIcon },

@@ -18,22 +18,23 @@
     <div class="d-flex justify-content-between text-center daterangepicker-calendar-row">
       <div v-for="day in daysOfFirstWeek" :key="day.format('D')" class="col-day">{{ day.format('ddd') }}</div>
     </div>
-    
+
     <div class="d-flex flex-wrap justify-content-between text-center daterangepicker-calendar-row">
-      <div v-for="day in days" :key="day.format('M-D')" class="col-day"
-        :class="dayClass(day)" @mouseover="dayMouseOver(day)" @mousedown.prevent @click="dayClick(day)">{{ day.format('D') }}</div>
+      <div v-for="day in days" :key="day.format('M-D')" class="col-day" :class="dayClass(day)"
+        @mouseover="dayMouseOver(day)" @mousedown.prevent @click="dayClick(day)">
+        {{ day.format('D') }}
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
-import fontawesome from '@fortawesome/fontawesome'
-import faCaretLeft from '@fortawesome/fontawesome-free-solid/faCaretLeft'
-import faCaretRight from '@fortawesome/fontawesome-free-solid/faCaretRight'
 import moment from 'moment'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faCaretLeft, faCaretRight } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-fontawesome.library.add(faCaretLeft, faCaretRight)
+library.add(faCaretLeft, faCaretRight)
 
 export default {
   props: ['calendarIndex', 'calendarCount', 'month', 'startDate', 'endDate', 'compare', 'startDateCompare', 'endDateCompare', 'step'],
@@ -64,7 +65,7 @@ export default {
   methods: {
     dayClass: function(day) {
       let classes = []
-      
+
       // Hide days overflowing
       if (!day.isBetween(this.displayMonth, moment.utc(this.displayMonth).endOf('month'), 'days', '[]')) {
         classes.push('invisible')
