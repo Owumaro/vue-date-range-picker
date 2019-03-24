@@ -9,38 +9,47 @@
 
     <h3 class="pb-2 border-bottom">Modal integration</h3>
     <div class="mb-4">
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+      <button type="button" class="btn btn-primary" v-b-modal.exampleModal>
         <font-awesome-icon icon="calendar-alt" fixed-width />
         {{ startDate | dateFormat }} - {{ endDate | dateFormat }}
         <font-awesome-icon icon="caret-down" fixed-width />
       </button>
 
-      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-          <div class="modal-content">
-            <div class="modal-body">
-              <date-range-picker v-on:submit="submittedModal" v-on:cancel="cancelledModal" />
-            </div>
-          </div>
-        </div>
-      </div>
+      <b-modal id="exampleModal" ref="exampleModal" size="lg" :hide-header="true" :hide-footer="true">
+        <date-range-picker v-on:submit="submittedModal" v-on:cancel="cancelledModal" />
+      </b-modal>
+    </div>
+
+    <h3 class="pb-2 border-bottom">Popover integration</h3>
+    <div class="mb-4">
+      <button type="button" class="btn btn-primary" id="examplePopoverButton">
+        <font-awesome-icon icon="calendar-alt" fixed-width />
+        {{ startDate | dateFormat }} - {{ endDate | dateFormat }}
+        <font-awesome-icon icon="caret-down" fixed-width />
+      </button>
+
+      <b-popover ref="examplePopover" target="examplePopoverButton" triggers="click" placement="bottom">
+        <date-range-picker v-on:submit="submittedPopover" v-on:cancel="cancelledPopover" />
+      </b-popover>
     </div>
   </div>
 </template>
 
 <script>
-import 'bootstrap'
 import moment from 'moment'
-import $ from 'jquery'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faCalendarAlt, faCaretDown } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import BModal from 'bootstrap-vue/es/components/modal/modal'
+import BModalDirective from 'bootstrap-vue/es/directives/modal/modal'
+import BPopover from 'bootstrap-vue/es/components/popover/popover'
 import DateRangePicker from './components/DateRangePicker'
 
 library.add(faCalendarAlt, faCaretDown)
 
 export default {
-  components: { DateRangePicker, FontAwesomeIcon },
+  components: { DateRangePicker, FontAwesomeIcon, BModal, BPopover },
+  directives: { 'b-modal': BModalDirective },
   data: () => {
     return {
       startDate: moment.utc().subtract(1, 'month').startOf('month'),
@@ -51,6 +60,7 @@ export default {
     submitted: function(range) {
       console.log(range)
     },
+    // Modal methods
     submittedModal: function(range) {
       this.startDate = range.startDate
       this.endDate = range.endDate
@@ -60,7 +70,19 @@ export default {
       this.closeModal()
     },
     closeModal: function() {
-      $('#exampleModal').modal('hide')
+      this.$refs.exampleModal.hide()
+    },
+    // Popover methods
+    submittedPopover: function(range) {
+      this.startDate = range.startDate
+      this.endDate = range.endDate
+      this.closePopover()
+    },
+    cancelledPopover: function() {
+      this.closePopover()
+    },
+    closePopover: function() {
+      this.$refs.examplePopover.$emit('close')
     }
   },
   filters: {
@@ -73,4 +95,8 @@ export default {
 
 <style>
 @import '~bootstrap/dist/css/bootstrap.min.css';
+
+.popover {
+  max-width: 800px;
+}
 </style>
